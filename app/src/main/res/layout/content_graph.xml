@@ -47,8 +47,8 @@ tools:showIn="@layout/activity_graph">
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+            <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="1">
@@ -65,13 +65,22 @@ tools:showIn="@layout/activity_graph">
             <TextView
                 android:text="Physical condition"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView" />
+                android:layout_height="match_parent"
+                android:id="@+id/phyLegend"
+                android:gravity="center"/>
 
-        </LinearLayout>
+                <TextView
+                    android:text="100%"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/phyStat"
+                    android:textAlignment="viewEnd"
+                    android:gravity="center"/>
+
+            </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:weightSum="1">
@@ -83,23 +92,34 @@ tools:showIn="@layout/activity_graph">
                     android:id="@+id/imageView2"
                     android:layout_below="@+id/imageView3"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
+                    android:layout_alignParentStart="true"
+                    />
 
                 <TextView
                     android:text="Mental condition"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView2" />
+                    android:layout_height="match_parent"
+                    android:id="@+id/menLegend"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:text="100%"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/menStat"
+                    android:layout_weight="1"
+                    android:textAlignment="viewEnd"
+                    android:gravity="center"/>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:weightSum="1">
 
                 <ImageView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_legend_blue"
                     android:id="@+id/imageView"
@@ -109,10 +129,44 @@ tools:showIn="@layout/activity_graph">
 
                 <TextView
                     android:text="Intelligence condition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/intLegend"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:text="100%"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView3" />
+                    android:layout_height="match_parent"
+                    android:id="@+id/intStat"
+                    android:textAlignment="textEnd"
+                    android:gravity="center"/>
+
             </LinearLayout>
+
+            <TextView
+                android:text="description PHY"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/descriptionPHY"
+                android:layout_marginTop="15dp"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:text="description PHY"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/descriptionMEN"
+                android:layout_marginTop="5dp"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:text="description PHY"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/descriptionINT"
+                android:layout_marginTop="5dp"
+                android:textAlignment="center"/>
 
         </LinearLayout>
     </ScrollView>

@@ -26,6 +26,7 @@ public class GraphActivity extends AppCompatActivity {
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
     SimpleDateFormat headingFormat = new SimpleDateFormat("dd MMMM yyyy");
     SimpleDateFormat dayFormat = new SimpleDateFormat("d");
+    TextView phyStat, menStat, intStat, descriptionPHY, descriptionMEN, descriptionINT;
 
     public String splitDate(String b, int i){
         String birthSplit[] = b.split(Pattern.quote("."));
@@ -84,8 +85,90 @@ public class GraphActivity extends AppCompatActivity {
         todayBar.setTitle("TODAY");
         graph.addSeries(todayBar);
     }
+    public String description (double biorhythm, double con, double trend){
 
-    public void graphView(int day, Date D[], GraphView graph, int range, double biorhythm, String title, int color){
+        String DescriptionDisplay = null;
+        //PHYSICAL DESCRIPTIONS
+        String psyDescription[] = new String[10];
+        psyDescription[0] = "";
+        psyDescription[1] = "";
+        psyDescription[2] = "";
+        psyDescription[3] = "";
+        psyDescription[4] = "";
+        psyDescription[5] = "";
+        psyDescription[6] = "";
+        psyDescription[7] = "";
+        psyDescription[8] = "";
+        psyDescription[9] = "";
+
+        //MENTAL DESCRIPTIONS
+        String menDescription[] = new String[10];
+        menDescription[0] = "";
+        menDescription[1] = "";
+        menDescription[2] = "";
+        menDescription[3] = "";
+        menDescription[4] = "";
+        menDescription[5] = "";
+        menDescription[6] = "";
+        menDescription[7] = "";
+        menDescription[8] = "";
+        menDescription[9] = "";
+
+        //INTELLIGENCE DESCRIPTIONS
+        String intDescription[] = new String[10];
+        intDescription[0] = "Twoja kondycja intelektualna jest dodatnia. Przygotuj się do podejmowania ważnych decyzji i zdobywania osiągnięć naukowych.";
+        intDescription[1] = "Jest to dobry moment aby zacząć podejmować ważne decyzje i zdobywać osiągnięcia naukowe. Wykorzystaj to.";
+        intDescription[2] = "Osiągasz najwyższe wartości swojej kondycji intelektualnej. Jest to najlepszy moment, aby podejmować ważne decyzje i zdobywać osiągnięcia naukowe.";
+        intDescription[3] = "Nadal jest to dobra chwila by podejmować decyzje i zdobywać osiągnięcia naukowe, i powinieneś to wykorzystać.";
+        intDescription[4] = "Twoja kondycja intelektualna maleje. Wykorzystaj jej pozytywny rytm, aczkolwiek nie stawiaj sobie zbyt dużych wymagań.";
+        intDescription[5] = "Twoja kondycja intelektualna ma ujemne wartości. Unikaj skomplikowanych prac umysłowych.";
+        intDescription[6] = "Twoja kondycja intelektualna osiąga minimum potencjału. Powinieneś unikać prac umysłowych i podejmowania ważnych decyzji. Lecz niebawem biorytm intelektualny zacznie mieć tendencję wzrostową.";
+        intDescription[7] = "Twoja kondycja intelektualna ma ujemne wartości lecz zmierza w dobrym kierunku. Nastaw się na osiąganie nowych celów i rozwiązywanie problemów.";
+        intDescription[8] = "Twoja kondycja intelektualna nareszcie przyjmuje wartości dodatnie.";
+        intDescription[9] = "Twoja kondycja intelektualna niestety przyjmuje wartości ujemne.";
+
+
+        if (biorhythm == 23.0) {
+            DescriptionDisplay = "Description of physical condition";
+        }
+
+        else if (biorhythm == 28.0){
+            DescriptionDisplay = "Description of mental condition";
+        }
+
+        else if (biorhythm == 33.0){
+            if (con >= 85) {
+                DescriptionDisplay = intDescription[2];
+            } else if (con <= -85) {
+                DescriptionDisplay = intDescription[6];
+            } else if (con < trend) {
+                //rising branch
+                if (con > -85 && con < 0) {
+                    DescriptionDisplay = intDescription[7];
+                } else if (con >= 0 && con < 5) {
+                    DescriptionDisplay = intDescription[8];
+                } else if (con >= 5 && con < 60) {
+                    DescriptionDisplay = intDescription[0];
+                } else if (con >= 60 && con < 85) {
+                    DescriptionDisplay = intDescription[1];
+                }
+            } else if (con > trend) {
+                //decreasing branch
+                if (con < 85 && con > 60) {
+                    DescriptionDisplay = intDescription[3];
+                } else if (con <= 60 && con > 0) {
+                    DescriptionDisplay = intDescription[4];
+                } else if (con <= 0 && con > -5) {
+                    DescriptionDisplay = intDescription[9];
+                } else if (con < -5 && con > -85) {
+                    DescriptionDisplay = intDescription[5];
+                }
+            }
+        }
+
+        return ""+DescriptionDisplay;
+    }
+    public void graphView(int day, Date D[], GraphView graph, int range, double biorhythm, String title, int color, TextView stat, TextView description){
 
         double CON[] = new double[(day+16)*range];
         for (int i = 0; i <CON.length; i++)
@@ -101,6 +184,16 @@ public class GraphActivity extends AppCompatActivity {
         seriesCON.setTitle(title);
         seriesCON.setColor(color);
         seriesCON.setAnimated(true);
+
+        description.setText(description(biorhythm, (CON[day*range])*100, (CON[(day+1)*range])*100));
+
+        if (CON[day*range]>=0) {
+            stat.setTextColor(Color.GREEN);
+            stat.setText("+"+String.format("%.0f", CON[day * range] * 100)+"%");
+        } else if (CON[day*range]<0){
+            stat.setTextColor(Color.RED);
+            stat.setText(String.format("%.0f", CON[day * range] * 100)+"%");
+        }
         }
 
 
@@ -112,7 +205,12 @@ public class GraphActivity extends AppCompatActivity {
         birthday = getIntent().getStringExtra("Birthday");
         todayString = dateFormat.format(todayDate.getTime());
         ((TextView) findViewById(R.id.todayDateTextView)).setText(headingFormat.format(todayDate.getTime()));
-
+        phyStat = (TextView)findViewById(R.id.phyStat);
+        menStat = (TextView)findViewById(R.id.menStat);
+        intStat = (TextView)findViewById(R.id.intStat);
+        descriptionPHY = (TextView)findViewById(R.id.descriptionPHY);
+        descriptionMEN = (TextView)findViewById(R.id.descriptionMEN);
+        descriptionINT = (TextView)findViewById(R.id.descriptionINT);
         //days to int
         int day = 0;
         try {
@@ -147,15 +245,19 @@ public class GraphActivity extends AppCompatActivity {
         todayBar(dToday, graph);
 
         //PHYSICAL CONDITION (23 days)
-        graphView(day, D, graph, range, 23.0, "Physical condition", Color.RED);
+        graphView(day, D, graph, range, 23.0, "Physical condition", Color.RED, phyStat, descriptionPHY);
 
         //MENTAL CONDITION (28 days)
-        graphView(day, D, graph, range, 28.0, "Mental condition", Color.GREEN);
+        graphView(day, D, graph, range, 28.0, "Mental condition", Color.GREEN, menStat, descriptionMEN);
 
         //INTELLIGENCE CONDITION (33 days)
-        graphView(day, D, graph, range, 33.0, "Intelligence condition", Color.BLUE);
+        graphView(day, D, graph, range, 33.0, "Intelligence condition", Color.BLUE, intStat, descriptionINT);
+
+        //DESCRIPTION
+
 
         //GRAPH FORMAT
         graphFormat (dayFormat, graph, d2, d3);
+
     }
 }
