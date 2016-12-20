@@ -87,32 +87,32 @@ public class GraphActivity extends AppCompatActivity {
     }
     public String description (double biorhythm, double con, double trend){
 
-        String DescriptionDisplay = null;
+        String DescriptionDisplay = "";
         //PHYSICAL DESCRIPTIONS
         String psyDescription[] = new String[10];
-        psyDescription[0] = "";
-        psyDescription[1] = "";
-        psyDescription[2] = "";
-        psyDescription[3] = "";
-        psyDescription[4] = "";
-        psyDescription[5] = "";
-        psyDescription[6] = "";
-        psyDescription[7] = "";
-        psyDescription[8] = "";
-        psyDescription[9] = "";
+        psyDescription[0] = "Wartości kondycji fizycznej są dodatnie. Dobrze znosisz wysiłek fizyczny i jesteś odporny na choroby i przeciążenia.";
+        psyDescription[1] = "Wartości kondycji fizycznej są wysokie. To dobry moment by stawiać sobie wymagające cele i pobijać rekordy. ";
+        psyDescription[2] = "Twoja kondycja fizyczna jest na najwyższym poziomie. Osiągaj wysoko postawione cele i pobijaj rekordy. Organizm jest najmniej narażony na przeciążenia i choroby.";
+        psyDescription[3] = "Wartości kondycji fizycznej są dodatnie i dobrze znosisz wysiłek fizyczny.";
+        psyDescription[4] = "Wartości kondycji fizycznej są coraz niższe. Wykorzystaj jej dodatnie wartości na intensywną pracę nad sobą.";
+        psyDescription[5] = "Wartości kondycji fizycznej przyjmują wartości ujemne. Unikaj przeciążeń i dbaj o swoją odporność. ";
+        psyDescription[6] = "Wskaźnik kondycji fizycznej osiąga minimum potencjału. Nie stawiaj sobie w tej chwili zbyt wymagających celów do osiągnięcia, aczkolwiek nie rezygnuj z aktywności fizycznej. Dbaj o swoją odporność organizmu.";
+        psyDescription[7] = "Wartości kondycji fizycznej mają ujemne wartości, lecz zwiększają się twoje predyspozycje do większych obciążeń.";
+        psyDescription[8] = "Wartości kondycji fizycznej zaczęły przyjmować wartości dodatnie.";
+        psyDescription[9] = "Wartości kondycji fizycznej zaczęły przyjmować wartości ujemne.";
 
         //MENTAL DESCRIPTIONS
         String menDescription[] = new String[10];
-        menDescription[0] = "";
-        menDescription[1] = "";
-        menDescription[2] = "";
-        menDescription[3] = "";
-        menDescription[4] = "";
-        menDescription[5] = "";
-        menDescription[6] = "";
-        menDescription[7] = "";
-        menDescription[8] = "";
-        menDescription[9] = "";
+        menDescription[0] = "Wskaźnik emocjonalny jest dodatni. Zwiększa się Twoja odporność na stres i umiejętność kontrolowania uczuć.";
+        menDescription[1] = "Twoja odporność na stres i umiejętność kontrolowania uczuć są na dużym poziomie. Wykorzystaj to do rozwiązywania problemów.";
+        menDescription[2] = "Osiągasz najwyższe wartości kondycji emocjonalnej. Masz bardzo małą podatność na stres. Jest to najlepszy moment do rozwiązywania problemów uczuciowych.";
+        menDescription[3] = "Mimo, że wartości kondycji emocjonalnej maleją to wciąż są na wysokim poziomie i nadal wskazuje to na Twoją dobrą odporność na stres.";
+        menDescription[4] = "Wskaźnik emocjonalny maleje. Wykorzystaj jej dodatnie wartości i nie odkładaj trudnych spraw do rozwiązania na później.";
+        menDescription[5] = "Wskaźnik emocjonalny przyjmuje wartości ujemne. Unikaj trudnych i stresogennych sytuacji. ";
+        menDescription[6] = "Wskaźnik emocjonalny osiąga minimum potencjału. Powinieneś unikać trudnych sytuacji i rozwiązywania problemów uczuciowych. Lepiej odłożyć je na później, gdyż niebawem kondycja emocjonalna będzie wzrastać.";
+        menDescription[7] = "Wskaźnik emocjonalny ma ujemne wartości, aczkolwiek z dnia na dzień są one coraz większe. Nastawiaj się na zwiększenie odporności na stresogenne sytuacje.";
+        menDescription[8] = "Wskaźnik emocjonalny zaczął przyjmować wartości dodatnie.";
+        menDescription[9] = "Wskaźnik emocjonalny przyjmuje wartości ujemne.";
 
         //INTELLIGENCE DESCRIPTIONS
         String intDescription[] = new String[10];
@@ -127,15 +127,67 @@ public class GraphActivity extends AppCompatActivity {
         intDescription[8] = "Twoja kondycja intelektualna nareszcie przyjmuje wartości dodatnie.";
         intDescription[9] = "Twoja kondycja intelektualna niestety przyjmuje wartości ujemne.";
 
-
+        //PHYSICAL CONDITION DESCRIPTION
         if (biorhythm == 23.0) {
-            DescriptionDisplay = "Description of physical condition";
+            if (con >= 85) {
+                DescriptionDisplay = psyDescription[2];
+            } else if (con <= -85) {
+                DescriptionDisplay = psyDescription[6];
+            } else if (con < trend) {
+                //rising branch
+                if (con > -85 && con < 0) {
+                    DescriptionDisplay = psyDescription[7];
+                } else if (con >= 0 && con < 5) {
+                    DescriptionDisplay = psyDescription[8];
+                } else if (con >= 5 && con < 60) {
+                    DescriptionDisplay = psyDescription[0];
+                } else if (con >= 60 && con < 85) {
+                    DescriptionDisplay = psyDescription[1];
+                }
+            } else if (con > trend) {
+                //decreasing branch
+                if (con < 85 && con > 60) {
+                    DescriptionDisplay = psyDescription[3];
+                } else if (con <= 60 && con > 0) {
+                    DescriptionDisplay = psyDescription[4];
+                } else if (con <= 0 && con > -5) {
+                    DescriptionDisplay = psyDescription[9];
+                } else if (con < -5 && con > -85) {
+                    DescriptionDisplay = psyDescription[5];
+                }
+            }
         }
-
+        //MENTAL CONDITION DESCRIPTION
         else if (biorhythm == 28.0){
-            DescriptionDisplay = "Description of mental condition";
+            if (con >= 85) {
+                DescriptionDisplay = menDescription[2];
+            } else if (con <= -85) {
+                DescriptionDisplay = menDescription[6];
+            } else if (con < trend) {
+                //rising branch
+                if (con > -85 && con < 0) {
+                    DescriptionDisplay = menDescription[7];
+                } else if (con >= 0 && con < 5) {
+                    DescriptionDisplay = menDescription[8];
+                } else if (con >= 5 && con < 60) {
+                    DescriptionDisplay = menDescription[0];
+                } else if (con >= 60 && con < 85) {
+                    DescriptionDisplay = menDescription[1];
+                }
+            } else if (con > trend) {
+                //decreasing branch
+                if (con < 85 && con > 60) {
+                    DescriptionDisplay = menDescription[3];
+                } else if (con <= 60 && con > 0) {
+                    DescriptionDisplay = menDescription[4];
+                } else if (con <= 0 && con > -5) {
+                    DescriptionDisplay = menDescription[9];
+                } else if (con < -5 && con > -85) {
+                    DescriptionDisplay = menDescription[5];
+                }
+            }
         }
-
+        //INTELLIGENCE CONDITION DESCRIPTION
         else if (biorhythm == 33.0){
             if (con >= 85) {
                 DescriptionDisplay = intDescription[2];
